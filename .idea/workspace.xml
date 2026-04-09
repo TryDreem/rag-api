@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7339186-f41d-480d-bc1e-8cc839d2df3f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/core/exceptions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/core/logging_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/schemas/document.py" afterDir="false" />
+    <list default="true" id="a7339186-f41d-480d-bc1e-8cc839d2df3f" name="Changes" comment="document upload added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/documents.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/documents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/celery_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/celery_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/exceptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/document.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/document.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/services/document_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/document_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tasks/process_document.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/tasks/process_document.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,12 +114,25 @@
       <workItem from="1775723293529" duration="5274000" />
       <workItem from="1775758917017" duration="2255000" />
       <workItem from="1775761198862" duration="207000" />
-      <workItem from="1775761422333" duration="893000" />
+      <workItem from="1775761422333" duration="3355000" />
     </task>
+    <task id="LOCAL-00001" summary="document upload added">
+      <option name="closed" value="true" />
+      <created>1775762565555</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1775762565555</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="document upload added" />
+    <option name="LAST_COMMIT_MESSAGE" value="document upload added" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ragapi$process_document.coverage" NAME="process_document Coverage Results" MODIFIED="1775724838001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/tasks" />

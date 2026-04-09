@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Request, File, UploadFile
+from fastapi import APIRouter, HTTPException, Depends, Request, File, UploadFile, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 import os
@@ -12,7 +12,7 @@ from app.schemas.user import TokenResponse, UserRegister, UserResponse, UserLogi
 from app.models.user import User
 from sqlalchemy import select
 from app.api.deps import get_current_user
-from app.core.exceptions import UnsupportedFileType, FileUploadError
+from app.core.exceptions import UnsupportedFileType, FileUploadError, DocumentNotFound, NotAllowedToDelete
 from app.tasks.process_document import process_document
 
 logger = logging.getLogger(__name__)
@@ -56,6 +56,38 @@ class DocumentService:
         )
 
         return DocumentResponse.model_validate(db_document)
+
+
+    async def get_documents(self, db: AsyncSession, current_user: User):
+        logger.info(f"Trying to get documents for user: {current_user.id}")
+        query = select(Document).where(Document.user_id == current_user.id)
+        result = await db.execute(query)
+        documents = result.scalars().all()
+        return [DocumentResponse.model_validate(doc) for doc in documents]
+
+
+    async def delete_document(self, document_id: int, db: AsyncSession, current_user: User):
+        logger.info(f"Trying to delete document: {document_id}")
+        document = await db.get(Document, document_id)
+        if not document:
+            logger.info(f"Document {document_id} not found")
+            raise DocumentNotFound("Document not found")
+
+        if document.user_id != current_user.id:
+            logger.info(f"User {current_user.id} not allowed to delete document: {document_id}")
+            raise NotAllowedToDelete("User not allowed to delete document")
+
+        if os.path.exists(f"uploads/{document.filename}"):
+            os.remove(f"uploads/{document.filename}")
+        await db.delete(document)
+        await db.commit()
+
+        logger.info(f"Document {document_id} deleted")
+
+        return Response(status_code=204)
+
+
+
 
 
 service = DocumentService()

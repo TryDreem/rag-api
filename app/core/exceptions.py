@@ -9,3 +9,6 @@ class FileUploadError(DocumentException):
 
 class DocumentNotFound(DocumentException):
     pass
+
+class NotAllowedToDelete(DocumentException):
+    pass

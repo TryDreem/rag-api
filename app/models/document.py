@@ -30,7 +30,7 @@ class Document(Base):
     created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
 
     user: Mapped["User"] = relationship(back_populates='documents')
-    chunks: Mapped[list["Chunk"]] = relationship(back_populates='document')
+    chunks: Mapped[list["Chunk"]] = relationship(back_populates='document', cascade='all, delete-orphan')
 
 
     def __repr__(self) -> str:

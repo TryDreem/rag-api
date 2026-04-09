@@ -14,7 +14,7 @@ from sqlalchemy import select
 from app.api.deps import get_current_user
 from app.tasks.process_document import process_document
 from app.services.document_service import service
-from app.core.exceptions import UnsupportedFileType, FileUploadError
+from app.core.exceptions import UnsupportedFileType, FileUploadError, DocumentNotFound, NotAllowedToDelete
 
 logger = logging.getLogger(__name__)
 
@@ -35,4 +35,31 @@ async def upload_document(
         raise HTTPException(status_code=500, detail=str(e))
 
     return result
+
+
+@router.get("", response_model=list[DocumentResponse], status_code=200)
+async def get_documents(
+        db: AsyncSession = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    return await service.get_documents(db=db, current_user=current_user)
+
+
+@router.delete("/{document_id}", status_code=204)
+async def delete_document(
+        document_id: int,
+        db: AsyncSession = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    try:
+        result = await service.delete_document(document_id=document_id, db=db, current_user=current_user)
+    except DocumentNotFound as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except NotAllowedToDelete as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+    return result
+
+
+
 
