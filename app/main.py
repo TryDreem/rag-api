@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.api import auth
+from app.api import auth, documents
+from app.core.logging_config import setup_logging
 
 app = FastAPI(
     title="RagAPI",
@@ -9,8 +10,10 @@ app = FastAPI(
 
 
 all_routers = [
-    auth.router
+    auth.router,
+    documents.router
 ]
+setup_logging()
 
 for router in all_routers:
     app.include_router(router)
