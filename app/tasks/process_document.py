@@ -1,17 +1,13 @@
 from pypdf import PdfReader
-from sentence_transformers import SentenceTransformer
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from app.celery_app import celery_app
-from app.core.config import settings
 from app.models.chunk import Chunk
 from app.models.document import Document, DocumentStatus
 from app.database import SyncSession
 import logging
+from app.core.embeddings import get_embedding
 
 logger = logging.getLogger(__name__)
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def split_into_chunks(text: str, chunk_size: int = 500, overlap: int = 50):
     words = text.split()
@@ -47,7 +43,7 @@ def process_document(document_id: int, file_path: str):
 
 
             for i, chunk in enumerate(chunks):
-                embedding = model.encode(chunk).tolist()
+                embedding = get_embedding(chunk)
                 chunk = Chunk(
                     document_id=document_id,
                     content=chunk,

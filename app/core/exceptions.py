@@ -12,3 +12,9 @@ class DocumentNotFound(DocumentException):
 
 class NotAllowedToDelete(DocumentException):
     pass
+
+class AccessDenied(DocumentException):
+    pass
+
+class SomethingWentWrong(DocumentException):
+    pass

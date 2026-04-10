@@ -1,17 +1,13 @@
-from fastapi import APIRouter, HTTPException, Depends, Request, File, UploadFile, Response
+from fastapi import UploadFile, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 import os
 import uuid
 import aiofiles
 from app.models.document import Document, DocumentStatus
-from app.core.security import hash_password, verify_password, create_access_token
-from app.database import get_db
 from app.schemas.document import DocumentResponse
-from app.schemas.user import TokenResponse, UserRegister, UserResponse, UserLogin
 from app.models.user import User
 from sqlalchemy import select
-from app.api.deps import get_current_user
 from app.core.exceptions import UnsupportedFileType, FileUploadError, DocumentNotFound, NotAllowedToDelete
 from app.tasks.process_document import process_document
 

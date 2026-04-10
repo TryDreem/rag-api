@@ -31,6 +31,7 @@ class Document(Base):
 
     user: Mapped["User"] = relationship(back_populates='documents')
     chunks: Mapped[list["Chunk"]] = relationship(back_populates='document', cascade='all, delete-orphan')
+    messages: Mapped[list["Message"]] = relationship(back_populates='document', cascade='all, delete-orphan')
 
 
     def __repr__(self) -> str:
