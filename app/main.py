@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import auth, documents
+from app.api import auth, documents, chat
 from app.core.logging_config import setup_logging
 
 app = FastAPI(
@@ -11,7 +11,8 @@ app = FastAPI(
 
 all_routers = [
     auth.router,
-    documents.router
+    documents.router,
+    chat.router,
 ]
 setup_logging()
 
