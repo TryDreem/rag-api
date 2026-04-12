@@ -6,6 +6,7 @@ from app.database import SyncSession
 import logging
 from app.core.embeddings import get_embedding
 
+
 logger = logging.getLogger(__name__)
 
 
