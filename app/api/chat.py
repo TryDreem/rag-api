@@ -1,14 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
-
-from app.core.exceptions import DocumentNotFound, UnsupportedFileType, AccessDenied
+from app.core.exceptions import DocumentNotFound, AccessDenied
 from app.schemas.chat import ChatResponse, ChatRequest, MessageResponse
-from app.core.security import hash_password, verify_password, create_access_token
 from app.database import get_db
-from app.schemas.user import TokenResponse, UserRegister, UserResponse, UserLogin
 from app.models.user import User
-from sqlalchemy import select
 from app.api.deps import get_current_user
 from app.services.chat_service import service
 logger = logging.getLogger(__name__)
