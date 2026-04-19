@@ -67,9 +67,10 @@ async def mock_external():
             "app.core.embeddings.get_embedding",
             return_value=[0.1] * 384  # mock embedding vector (fixed size list)
     ), \
-            patch(
-                "app.services.chat_service.client"  # mock the external client (e.g. LLM API)
-            ) as mock_groq:
+    patch("app.services.document_service.aiofiles.open", new_callable=MagicMock), \
+    patch("app.services.vector_service.get_embedding", return_value=[0.1] * 384), \
+    patch("app.services.chat_service.find_similar_chunks", new_callable=AsyncMock, return_value=[]), \
+    patch("app.services.chat_service.client") as mock_groq: # mock the external client (e.g. LLM API)
 
         # mock async method for chat completion
         mock_groq.chat.completions.create = AsyncMock(
@@ -86,6 +87,12 @@ async def mock_external():
         )
 
         # provide mocked environment to tests
+        yield
+
+@pytest_asyncio.fixture(autouse=True)
+async def mock_celery():
+    with patch("app.services.document_service.process_document") as mock_task:
+        mock_task.delay = MagicMock()
         yield
 
 
@@ -115,6 +122,15 @@ async def test_user(client):
     assert response.status_code == 201
     return user_data
 
+@pytest_asyncio.fixture
+async def confirmed_user(test_user, db_session):
+    from app.models.user import User
+    from sqlalchemy import update
+    query = update(User).where(User.email == test_user["email"]).values(is_confirmed=True)
+    await db_session.execute(query)
+    await db_session.commit()
+    return test_user
+
 
 @pytest_asyncio.fixture
 async def auth_headers(client, test_user,db_session):
@@ -130,3 +146,17 @@ async def auth_headers(client, test_user,db_session):
     token = response.json()["access_token"]
 
     return {"Authorization": f"Bearer {token}"}
+
+@pytest_asyncio.fixture
+async def test_document(client, auth_headers):
+    #files=(field_name): (filename, file_content, content_type)
+    response = await client.post(
+        "/documents",
+        files={
+            "file": ("test.pdf", b"fake pdf content", "application/pdf")
+        },
+        headers=auth_headers
+    )
+
+    assert response.status_code == 201
+    return response.json()

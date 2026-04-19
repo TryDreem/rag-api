@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7339186-f41d-480d-bc1e-8cc839d2df3f" name="Changes" comment="embedding, chat added">
-      <change afterPath="$PROJECT_DIR$/tests/conftest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pytest.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_auth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_chat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_documents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/chat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/documents.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/documents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/embeddings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/conftest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/57630a83-9647-4cfe-aa5c-12e52d0709ab_Full Research Report.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +128,9 @@
       <workItem from="1776005216479" duration="566000" />
       <workItem from="1776005793016" duration="4986000" />
       <workItem from="1776346196356" duration="977000" />
+      <workItem from="1776367324755" duration="354000" />
+      <workItem from="1776526194923" duration="3153000" />
+      <workItem from="1776631807685" duration="3254000" />
     </task>
     <task id="LOCAL-00001" summary="document upload added">
       <option name="closed" value="true" />
