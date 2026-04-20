@@ -32,6 +32,18 @@ async def test_login_success(client, confirmed_user, db_session):
     assert data["token_type"] == "bearer"
 
 
+async def test_login_user_not_found(client):
+    response = await client.post(
+        "/auth/login",
+        json={
+            "email": "unregistereduser@gmail.com",
+            "password": "12345678"
+        }
+    )
+
+    assert response.status_code == 404
+    assert "not found" in response.json()["detail"]
+
 async def test_login_unconfirmed_email(client, test_user):
     response = await client.post(
         "/auth/login",
@@ -51,6 +63,19 @@ async def test_login_incorrect_data(client, confirmed_user, db_session):
 
     assert response.status_code == 401
     assert "Email or password incorrect" in response.json()["detail"]
+
+
+
+async def test_get_me(client, auth_headers):
+
+    response = await client.get(
+        "/auth/me",
+        headers=auth_headers
+    )
+
+    assert response.status_code == 200
+    assert len(response.json()) > 1
+
 
 
 

@@ -9,14 +9,6 @@ from app.database import Base, get_db
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///file::memory:?cache=shared"
 
-
-@pytest_asyncio.fixture(scope="session")
-def event_loop():
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
-
 @pytest_asyncio.fixture(scope="session")
 async def engine():
     """Creating engine and tables only once for all tests"""
@@ -122,6 +114,7 @@ async def test_user(client):
     assert response.status_code == 201
     return user_data
 
+
 @pytest_asyncio.fixture
 async def confirmed_user(test_user, db_session):
     from app.models.user import User
@@ -147,6 +140,23 @@ async def auth_headers(client, test_user,db_session):
 
     return {"Authorization": f"Bearer {token}"}
 
+
+@pytest_asyncio.fixture
+async def auth_headers2(client, db_session):
+    user_data = {"email": "test2@gmail.com", "password": "12345678"}
+
+    await client.post("/auth/register", json=user_data)
+
+    from app.models.user import User
+    from sqlalchemy import update
+    query = update(User).where(User.email == user_data["email"]).values(is_confirmed=True)
+    await db_session.execute(query)
+    await db_session.commit()
+
+    response = await client.post("/auth/login", json=user_data)
+    token = response.json()["access_token"]
+    return {"Authorization": f"Bearer {token}"}
+
 @pytest_asyncio.fixture
 async def test_document(client, auth_headers):
     #files=(field_name): (filename, file_content, content_type)
@@ -160,3 +170,6 @@ async def test_document(client, auth_headers):
 
     assert response.status_code == 201
     return response.json()
+
+
+
